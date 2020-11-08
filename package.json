@@ -1,0 +1,19 @@
+{
+  "name": "proyecto.js",
+  "version": "1.0.0",
+  "description": "Es el proyecto final del curso Javascript",
+  "main": "index.js",
+  "scripts": {
+    "watch:css": "nodemon -e scss -x \"npm run build:css\"",
+    "build:css": "npm run css && npm run css-autoprefixer",
+    "build-css": "node-sass --include-path scss ./assets/scss/styles.scss ./assets/css/main.css",
+    "css": "cross-var node-sass --importer node_modules/node-sass-glob-importer/dist/cli.js --output-style compressed ./assets/scss/styles.scss ./assets/css/main.css",
+    "css-autoprefixer": "cross-var \"postcss -u autoprefixer -r css/*\""
+  },
+  "author": "Nicolas Robles",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^4.14.1",
+    "nodemon": "^2.0.6"
+  }
+}

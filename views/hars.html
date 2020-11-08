@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Home-Lab - Ham-A</title>
+    <meta content="" name="descriptison">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top header-inner-pages">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-xl-9 d-flex align-items-center">
+                    <h1 class="logo mr-auto"><a href="../index.html">Home-Lab</a></h1>
+                    <!-- Uncomment below if you prefer to use an image logo -->
+                    <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+                    <nav class="nav-menu d-none d-lg-block">
+                        <ul>
+                            <li class="active"><a href="../index.html">Inicio</a></li>
+                            <li><a href="../index.html#about">Que hacemos</a></li>
+                            <li><a href="../index.html#services">Servicios</a></li>
+                            <li><a href="#team">Equipo</a></li>
+                            <li class="drop-down"><a href="">Herramientas</a>
+                                <ul>
+                                    <li><a href="./hars.html">Escala HARS</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#contact">Contacto</a></li>
+                        </ul>
+                    </nav><!-- .nav-menu -->
+
+                    <a href="#about" class="get-started-btn scrollto">Regístrate</a>
+                </div>
+        </div>
+
+    </div>
+    </header><!-- End Header -->
+<!-- ======= MAIN ======= -->
+    <main id="main">
+      
+
+    <section class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Escala de Ansiedad de Hamilton (HARS)</h2>
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Herramientas</a></li>
+                    <li>HARS</li>
+                </ol>
+            </div>
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+
+    <section class="inner-page">
+        <div class="container justify-content-center mt-5 mb-5">
+            <!--~~~Descripcion del Test~~~-->
+            <div id="descripcionHars" class=" d-block">
+                <p class="test-description" data-aos="zoom-in" data-aos-delay="150">
+                  Hamilton Anxiety Rating Scale (HARS). Es
+                  una escala heteroadministrada de 14 ítems que evalúan el grado de ansiedad del paciente. Se aplica
+                  mediante entrevista semiestructurada, en la que el
+                  entrevistador evalúa la gravedad de los síntomas utilizando 5 opciones de respuesta ordinal (0: ausencia
+                  del síntoma; 4: síntoma muy grave o incapacitante).
+                  La puntuación total del instrumento, que se obtiene
+                  por la suma de las puntuaciones parciales de los 14
+                  ítemes, puede oscilar en un rango de 0 puntos (ausencia de ansiedad) a 56 (máximo grado de ansiedad). En su versión original, la escala ha demostrado
+                  poseer unas buenas propiedades psicométricas y
+                  es profusamente utilizada en la evaluación clínica del
+                  trastorno de ansiedad.
+                </p>
+                <div class="row justify-content-center align-content-center mt-5">
+                  <button type="button" class="comenzar-button" onclick="comenzarHars()">Comenzar Test</button>
+                </div>
+            </div>
+            <!--~~~Preguntas del Test~~~-->
+            <div id="pregutasHars" class="row justify-content-center align-content-center d-none mt-5 mb-5">
+                <div id="item1" class="align-self-center preguntas">
+                    <h4>1) Estado de ánimo ansioso</h4>
+                    <p>Preocupaciones, anticipación de lo peor, aprensión (anticipación temerosa), irritabilidad.</p>
+                    <ol>
+                        <li><label><input class="gradoAnsiedadI1" type="radio" name="gradoAnsiedadI1" value="0" checked>Ausente</label></li>
+                        <li><label><input class="gradoAnsiedadI1" type="radio" name="gradoAnsiedadI1" value="1">Leve</label></li>
+                        <li><label><input class="gradoAnsiedadI1" type="radio" name="gradoAnsiedadI1" value="2">Moderado</label></li>
+                        <li><label><input class="gradoAnsiedadI1" type="radio" name="gradoAnsiedadI1" value="3">Grave</label></li>
+                        <li><label><input class="gradoAnsiedadI1" type="radio" name="gradoAnsiedadI1" value="4">Muy grave / Incapacitante</label></li>
+                    </ol>
+                </div>
+                <div id="item2" class="align-self-center preguntas">
+                  <h4>2) Tensión</h4>
+                  <p>Sensación de tensión, fatigabilidad, imposibilidad de relajarse, reacciones con sobresalto, llanto fácil, temblores, sensación de inquietud.</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI2" type="radio" name="gradoAnsiedadI2" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI2" type="radio" name="gradoAnsiedadI2" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI2" type="radio" name="gradoAnsiedadI2" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI2" type="radio" name="gradoAnsiedadI2" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI2" type="radio" name="gradoAnsiedadI2" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item3" class="align-self-center preguntas">
+                  <h4>3) Temores</h4>
+                  <p>A la oscuridad, a los desconocidos, a quedarse solo, a los animales grandes, al tráfico, a las multitudes.</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI3" type="radio" name="gradoAnsiedadI3" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI3" type="radio" name="gradoAnsiedadI3" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI3" type="radio" name="gradoAnsiedadI3" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI3" type="radio" name="gradoAnsiedadI3" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI3" type="radio" name="gradoAnsiedadI3" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item4" class="align-self-center preguntas">
+                  <h4>4) Insomnio</h4>
+                  <p>Dificultad para dormirse, sueño interrumpido, sueño insatisfactorio y cansancio al despertar</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI4" type="radio" name="gradoAnsiedadI4" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI4" type="radio" name="gradoAnsiedadI4" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI4" type="radio" name="gradoAnsiedadI4" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI4" type="radio" name="gradoAnsiedadI4" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI4" type="radio" name="gradoAnsiedadI4" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item5" class="align-self-center preguntas">
+                  <h4>5) Intelectual / Cognitivo</h4>
+                  <p>Dificultad para concentrarse, mala memoria</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI5" type="radio" name="gradoAnsiedadI5" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI5" type="radio" name="gradoAnsiedadI5" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI5" type="radio" name="gradoAnsiedadI5" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI5" type="radio" name="gradoAnsiedadI5" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI5" type="radio" name="gradoAnsiedadI5" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item6" class="align-self-center preguntas">
+                  <h4>6) Estado de ánimo deprimido</h4>
+                  <p>Pérdida de interés, insatisfacción en las diversiones, depresión, despertar prematuro, cambios de humor durante el día</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI6" type="radio" name="gradoAnsiedadI6" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI6" type="radio" name="gradoAnsiedadI6" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI6" type="radio" name="gradoAnsiedadI6" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI6" type="radio" name="gradoAnsiedadI6" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI6" type="radio" name="gradoAnsiedadI6" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item7" class="align-self-center preguntas">
+                  <h4>7) Síntomas somáticos generales (musculares)</h4>
+                  <p>Dolores y molestias musculares, rigidez muscular, contracciones musculares, sacudidas clónicas, crujir de dientes, voz temblorosa</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI7" type="radio" name="gradoAnsiedadI7" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI7" type="radio" name="gradoAnsiedadI7" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI7" type="radio" name="gradoAnsiedadI7" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI7" type="radio" name="gradoAnsiedadI7" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI7" type="radio" name="gradoAnsiedadI7" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item8" class="align-self-center preguntas">
+                  <h4>8) Síntomas somáticos generales (sensoriales)</h4>
+                  <p>Zumbidos de oídos, visión borrosa, sofocos y escalofríos, sensación de debilidad, sensación de hormigueo</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI8" type="radio" name="gradoAnsiedadI8" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI8" type="radio" name="gradoAnsiedadI8" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI8" type="radio" name="gradoAnsiedadI8" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI8" type="radio" name="gradoAnsiedadI8" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI8" type="radio" name="gradoAnsiedadI8" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item9" class="align-self-center preguntas">
+                  <h4>9) Síntomas cardiovasculares</h4>
+                  <p>Taquicardia, palpitaciones, dolor en el pecho, latidos vasculares, sensación de desmayo, extrasístole</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI9" type="radio" name="gradoAnsiedadI9" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI9" type="radio" name="gradoAnsiedadI9" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI9" type="radio" name="gradoAnsiedadI9" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI9" type="radio" name="gradoAnsiedadI9" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI9" type="radio" name="gradoAnsiedadI9" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item10" class="align-self-center preguntas">
+                  <h4>10) Síntomas respiratorios</h4>
+                  <p>Opresión o constricción en el pecho, sensación de ahogo, suspiros, disnea</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI10" type="radio" name="gradoAnsiedadI10" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI10" type="radio" name="gradoAnsiedadI10" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI10" type="radio" name="gradoAnsiedadI10" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI10" type="radio" name="gradoAnsiedadI10" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI10" type="radio" name="gradoAnsiedadI10" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item11" class="align-self-center preguntas">
+                  <h4>11) Síntomas gastrointestinales</h4>
+                  <p>Dificultad para tragar, gases, dispepsia: dolor antes y después de comer, sensación de ardor, sensación de estómago lleno, vómitos acuosos, náuseas, vómitos, sensación de estómago vacío, digestión lenta, borborigmos (ruido intestinal), diarrea, pérdida de peso estreñimiento</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI11" type="radio" name="gradoAnsiedadI11" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI11" type="radio" name="gradoAnsiedadI11" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI11" type="radio" name="gradoAnsiedadI11" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI11" type="radio" name="gradoAnsiedadI11" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI11" type="radio" name="gradoAnsiedadI11" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item12" class="align-self-center preguntas">
+                  <h4>12) Síntomas genitourinarios</h4>
+                  <p>Micción frecuente, micción urgente, amenorrea, menorragia, aparición de la frigidez, eyaculación precoz, ausencia de erección, impotencia.</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI12" type="radio" name="gradoAnsiedadI12" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI12" type="radio" name="gradoAnsiedadI12" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI12" type="radio" name="gradoAnsiedadI12" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI12" type="radio" name="gradoAnsiedadI12" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI12" type="radio" name="gradoAnsiedadI12" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item13" class="align-self-center preguntas">
+                  <h4>13) Síntomas autónomos</h4>
+                  <p>Boca seca, rubor, palidez, tendencia a sudar, vértigos, cefalea de tensión, piloerección (pelos de punta)</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI13" type="radio" name="gradoAnsiedadI13" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI13" type="radio" name="gradoAnsiedadI13" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI13" type="radio" name="gradoAnsiedadI13" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI13" type="radio" name="gradoAnsiedadI13" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI13" type="radio" name="gradoAnsiedadI13" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div id="item14" class="align-self-center preguntas">
+                  <h4>14) Comportamiento en la entrevista (general)</h4>
+                  <p>Tenso/a, no relajado/a, agitación nerviosa: manos, dedos cogidos, apretados, tics, enrollar un pañuelo; inquietud: pasearse de un lado a otro, temblor de manos, ceño fruncido, cara tirante, aumento del tono muscular, suspiros, palidez facial. Comportamiento (fisiológico) Tragar saliva, eructar, taquicardia de reposo, frecuencia respiratoria por encima de 20 lat/min, sacudidas enérgicas de tendones, temblor, pupilas dilatadas, exoftalmos (proyección anormal del globo del ojo), sudor, tics en los párpados.</p>
+                  <ol>
+                      <li><label><input class="gradoAnsiedadI14" type="radio" name="gradoAnsiedadI14" value="0" checked>Ausente</label></li>
+                      <li><label><input class="gradoAnsiedadI14" type="radio" name="gradoAnsiedadI14" value="1">Leve</label></li>
+                      <li><label><input class="gradoAnsiedadI14" type="radio" name="gradoAnsiedadI14" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedadI14" type="radio" name="gradoAnsiedadI14" value="3">Grave</label></li>
+                      <li><label><input class="gradoAnsiedadI14" type="radio" name="gradoAnsiedadI14" value="4">Muy grave / Incapacitante</label></li>
+                  </ol>
+                </div>
+                <div class="row justify-content-center align-content-center">
+                  <button type="button" class="comenzar-button" onclick="mostrarResultados()">Obtener Resultados</button>
+                </div>
+            </div>
+            <!--~~~Resultados del Test~~~-->
+            <div id="resultadosHars" class="row d-none justify-content-center align-content-center">
+              <h2 id="nivelesAnsiedad" class=" mb-3"></h2>
+              <h3 id="resultadoPrincipal"></h3>
+              <h3 id="resultadoPsi"></h3>
+              <h3 id="resultadoSom"></h3>
+            </div>
+
+
+        </div>
+        </section>
+
+    </main><!-- End #main -->
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>Home-Lab</h3>
+            <p>Córdoba<br>
+              Argentina <br><br>
+              <strong>Phone:</strong> +59555555555<br>
+              <strong>Email:</strong> homelab@unmail.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Experiment Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web App Development</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Data Management</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Subjets Evaluation</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Battery Test</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+            <h4>Join Our Newsletter</h4>
+            <p>Si quieres recibir informacion sobre ofertas actualizaciones y nuestra comunidad subscribete con tu e-mail a nuestro Newsletter</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="copyright-wrap d-md-flex py-4">
+        <div class="mr-md-auto text-center text-md-left">
+          <div class="copyright">
+            &copy; Copyright <strong><span>Home-Lab</span></strong>. All Rights Reserved
+          </div>
+          <div class="credits">
+            Designed by Nico Robles
+          </div>
+        </div>
+        <div class="social-links text-center text-md-right pt-3 pt-md-0">
+          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+  <!--<div id="preloader"></div> La quito momentaneamente para que cargue la pantalla antes que los prompts-->
+
+  <!-- Vendor JS Files -->
+
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="../assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="../assets/vendor/counterup/counterup.min.js"></script>
+    <script src="../assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="../assets/vendor/venobox/venobox.min.js"></script>
+    <script src="../assets/vendor/aos/aos.js"></script>
+    <script src="../assets/vendor/styles/styles.js"></script>
+
+  <!--  Main JS File -->
+
+    <script src="../assets/js/hars.js"></script>
+
+</body>
+
+</html>
