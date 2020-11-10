@@ -8,10 +8,11 @@
 
 
 /*Creadores de objeto*/
-function PlanillaDePaciente(nombre,edad,sexo,resultadosEscalaHars){
+function PlanillaDePaciente(nombre,edad,sexo,eMail,resultadosEscalaHars){
     this.nombre=nombre;
     this.edad=edad;
     this.sexo=sexo;
+    this.eMail=eMail;
     this.resultadosEscalaHars=resultadosEscalaHars; /*Propiedad privada y corresponde al resultado total del test*/
 }
 
@@ -32,6 +33,7 @@ var puntajeTotalHars=0;
 
 //Variables DOM
 const descripcion = document.getElementById("descripcionHars");
+const formPaciente = document.getElementById("formPaciente")
 const preguntasHars = document.getElementById("pregutasHars");
 const resultadosHarsHtml = document.getElementById("resultadosHars");
 
@@ -50,13 +52,20 @@ var resultadosEscalaHars= new EscalaHars();
 
 /*==================FUNCIONES DEL TEST HARS=================*/
 
+function cargarPaciente(){
+
+    descripcion.classList.replace('d-block','d-none');
+    formPaciente.classList.replace('d-none','d-block');
+}
 //Funcion asignada a un botton para comenzar el test
 //Por ahora solo esconde la descripcion y muestra las preguntas
 function comenzarHars(){
-    descripcion.classList.replace('d-block','d-none');
+    logPaciente();
+    formPaciente.classList.replace('d-block','d-none')
     preguntasHars.classList.replace('d-none','d-block')
-
 }
+
+
 function mostrarResultados(){
     respuestasHars();
     harsResultados(resultadosEscalaHars);
@@ -66,27 +75,20 @@ function mostrarResultados(){
 
 
 /*Funcion para que el usuario cargue los datos del paciente*/
-//FUERA DE USO POR AHORA
+
 function logPaciente(){
-    paciente.nombre = prompt("Ingrese el Nombre y Apellido del paciente");
-    paciente.edad = prompt("Edad de " + paciente.nombre);
-    paciente.sexo = prompt("Sexo de "+ paciente.nombre);
+    paciente.nombre = document.getElementById("inputNombre").value;
+    paciente.edad = document.getElementById("inputEdad").value;
+    paciente.sexo = document.getElementById("inputSexo").value;
+    paciente.eMail = document.getElementById("inputEmail").value;
     paciente.hars = null;
+
+    sessionStorage.setItem('nombrePaciente',paciente.nombre);
+    console.log(paciente.nombre+"\n"+paciente.edad+"\n"+paciente.sexo+"\n"+paciente.eMail);
 }
 
-/*Este if pregunta si se desea leer las instrucciones */
-//FUERA DE USO POR AHORA
-function instruccionesHars (quiereInstrucciones) {
-    if (quiereInstrucciones == "si"){
-        alert("Cada Item representa un Sintoma de estado de Ansiedad. Seleccione para cada ítem la puntuación que corresponda, según su experiencia.\n Las definiciones que siguen al enunciado del ítem son ejemplos que sirven de guía.\n Ingrese en el casillero la cifra que defina mejor la intensidad de cada síntoma en el paciente.\nSiendo 0:Ausente, 1:Leve, 2:Moderado, 3:Grave, 4:Incapacitante.\n Todos los ítemes deben ser puntuados");
-    }
-    else {
-        alert("Perfecto, preparese para comenzar")}
-
-}
 
 //~~ESTA FUNCION RECORRE TODOS LOS IMPUTS Y ASIGNA LOS VALORES A UN ARRAY EN LA POSICION CORRESPONDIENTE~~
-
 function respuestasHars(){
     //Este for recorre un array con los nombre de las 14 clases que van a tener los 5 radios dentro de cada uno de los 14 item
     //y asigna el nombre de cada clase a la variable RadiosRespuesta

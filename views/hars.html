@@ -47,7 +47,7 @@
                             <li><a href="#team">Equipo</a></li>
                             <li class="drop-down"><a href="">Herramientas</a>
                                 <ul>
-                                    <li><a href="./hars.html">Escala HARS</a></li>
+                                    <li><a href="./hars.html#main">Escala HARS</a></li>
                                 </ul>
                             </li>
                             <li><a href="#contact">Contacto</a></li>
@@ -80,6 +80,7 @@
 
     <section class="inner-page">
         <div class="container justify-content-center mt-5 mb-5">
+          
             <!--~~~Descripcion del Test~~~-->
             <div id="descripcionHars" class=" d-block">
                 <p class="test-description" data-aos="zoom-in" data-aos-delay="150">
@@ -96,11 +97,51 @@
                   trastorno de ansiedad.
                 </p>
                 <div class="row justify-content-center align-content-center mt-5">
-                  <button type="button" class="comenzar-button" onclick="comenzarHars()">Comenzar Test</button>
+                  <button type="button" class="comenzar-button" onclick="cargarPaciente()">Comenzar Test</button>
                 </div>
             </div>
-            <!--~~~Preguntas del Test~~~-->
+
+             <!--~~~Carga de datos del Paciente~~~-->
+            <div id="formPaciente" class="row justify-content-center d-none">
+                <h2 class="col-12 mb-5 text-center">Ingrese los datos del Paciente</h2>
+                <form class="align-content-center">
+                    <input id="inputNombre" type="text" class="inputPaciente d-block mx-auto" aria-describedby="nombrePaciente" placeholder="Nombre y Apellido">
+                    <input id="inputEdad" type="number" class="inputPaciente d-block mx-auto" aria-describedby="edadPaciente" placeholder="Edad">
+                    <select id="inputSexo" class="d-block mx-auto" name="sexo">
+                        <option value="" disabled selected hidden class="etiquetaSelect mx-auto">Sexo</option>
+                        <option value="Femenino" >Femenino</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                      <input id="inputEmail" type="email" class="inputPaciente d-block mx-auto" placeholder="Email del paciente">
+                </form>
+                <div class="row justify-content-center align-content-center mt-5">
+                  <button type="button" class="comenzar-button" onclick="comenzarHars()">Continuar</button>
+                </div>
+            </div>
+
+
+
             <div id="pregutasHars" class="row justify-content-center align-content-center d-none mt-5 mb-5">
+
+                <!--~~~Instrucciones~~~-->
+                <div class="row">
+                    <button id="intrucciones_button" class="btn btn-primary offset-10" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                          Instrucciones
+                    </button>
+                    <div class="collapse mb-3 mt-1" id="collapseExample">
+                      <div class="card card-body">
+                          Cada Item representa un Sintoma de estado de Ansiedad. Seleccione para cada ítem la puntuación que corresponda, según su experiencia.
+                          <br>Las definiciones que siguen al enunciado del ítem son ejemplos que sirven de guía.
+                          Ingrese en el casillero la cifra que defina mejor la intensidad de cada síntoma en el paciente.</br>
+                          Recuerde que Todos los ítemes deben ser puntuados"
+                      </div>
+                    </div>
+                </div>
+
+             <!--~~~Preguntas del Test~~~-->
+                   <!--Le agregue los checks a los inputs solo para probar el programa,
+                     por que me cansé de llenarlos manualmente después de la ves nro 2763 xD-->
                 <div id="item1" class="align-self-center preguntas">
                     <h4>1) Estado de ánimo ansioso</h4>
                     <p>Preocupaciones, anticipación de lo peor, aprensión (anticipación temerosa), irritabilidad.</p>
@@ -302,7 +343,7 @@
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Our Services</h4>
+            <h4>Servicios</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Experiment Design</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Web App Development</a></li>
@@ -313,9 +354,9 @@
           </div>
 
           <div class="col-lg-4 col-md-6 footer-newsletter">
-            <h4>Join Our Newsletter</h4>
+            <h4>Unete a nuestro Newsletter</h4>
             <p>Si quieres recibir informacion sobre ofertas actualizaciones y nuestra comunidad subscribete con tu e-mail a nuestro Newsletter</p>
-            <form action="" method="post">
+            <form>
               <input type="email" name="email"><input type="submit" value="Subscribe">
             </form>
           </div>
