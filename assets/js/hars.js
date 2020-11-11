@@ -86,7 +86,7 @@ var resultadosEscalaHars= new EscalaHars();
         paciente.edad = document.getElementById("inputEdad").value;
         paciente.sexo = document.getElementById("inputSexo").value;
         paciente.eMail = document.getElementById("inputEmail").value;
-        paciente.hars = null;
+        paciente.resultadosEscalaHars = null;
 
         sessionStorage.setItem('nombrePaciente',paciente.nombre);
     }
@@ -94,11 +94,16 @@ var resultadosEscalaHars= new EscalaHars();
 
     //Esta función simula una base de datos en la nube, hasta que aprenda algún metodo mejor de almacenamiento
     function guardarPlanilla(){
+        //convierto el objeto resultadosEscalaHars a Json y lo meto dentro del objeto paciente
+        let jsonHars = JSON.stringify(resultadosEscalaHars);
+        paciente.resultadosEscalaHars=jsonHars;
 
-        let numeroDePlanillas = localStorage.getItem('Cantidad de Planillas');
         let jsonPaciente = JSON.stringify(paciente);
-
-        numeroDePlanillas = numeroDePlanillas + 1;
+        let numeroDePlanillas = localStorage.getItem('Cantidad de Planillas');
+        if(numeroDePlanillas==null){
+            numeroDePlanillas=0
+        }
+        numeroDePlanillas = parseInt(numeroDePlanillas)+1;
 
         localStorage.setItem('Paciente Nro'+numeroDePlanillas , jsonPaciente)
         localStorage.setItem('Cantidad de Planillas',numeroDePlanillas)
