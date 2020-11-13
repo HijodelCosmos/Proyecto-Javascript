@@ -29,21 +29,26 @@ var items = []
 var ansiedadPsiquica=0;
 var ansiedadSomatica=0;
 var puntajeTotalHars=0;
+var decicionesUsuario;
+
 
 
 
 //Variables DOM
-const descripcion = document.getElementById("descripcionHars");
-const formPaciente = document.getElementById("formPaciente")
-const preguntasHars = document.getElementById("pregutasHars");
-const resultadosHarsHtml = document.getElementById("resultadosHars");
+const descripcion = $("#descripcionHars").show();
+const formPaciente = $("#formPaciente").hide()
+const preguntasHars = $("#pregutasHars").hide();
+const resultadosHarsHtml = $("#resultadosHars").hide();
 
-const nivelesDeAnsiedadHtml=document.getElementById("nivelesAnsiedad");
-const resultadoPrincipalHtml= document.getElementById("resultadoPrincipal");
-const resultadoAPsiquicaHtml=document.getElementById("resultadoPsi");
-const resultadoASomaticaHtml=document.getElementById("resultadoSom");
+
+
+
+const nivelesDeAnsiedadHtml=$("#nivelesAnsiedad");
+const resultadoPrincipalHtml= $("#resultadoPrincipal");
+const resultadoAPsiquicaHtml=$("#resultadoPsi");
+const resultadoASomaticaHtml=$("#resultadoSom");
 //La Sig Variable, es un array con el nombre de las clases de los imputs radio
-const clasesRadiosRespuesta = ["gradoAnsiedadI1","gradoAnsiedadI2","gradoAnsiedadI3","gradoAnsiedadI4","gradoAnsiedadI5","gradoAnsiedadI6","gradoAnsiedadI7","gradoAnsiedadI8","gradoAnsiedadI9","gradoAnsiedadI10","gradoAnsiedadI11","gradoAnsiedadI12","gradoAnsiedadI13","gradoAnsiedadI14"]
+const clasesRadiosRespuesta = ["gradoAnsiedadI1","gradoAnsiedadI2","gradoAnsiedadI3","gradoAnsiedadI4","gradoAnsiedadI5","gradoAnsiedadI6","gradoAnsiedadI7","gradoAnsiedadI8","gradoAnsiedadI9","gradoAnsiedadI10","gradoAnsiedadI11","gradoAnsiedadI12","gradoAnsiedadI13","gradoAnsiedadI14"];
 
 //Creo los objetos de Scope Global
 var paciente = new PlanillaDePaciente();
@@ -55,25 +60,30 @@ var resultadosEscalaHars= new EscalaHars();
     //Asignada a un boton para cargar los datos del paciente
     function cargarPaciente(){
 
-        descripcion.classList.replace('d-block','d-none');
-        formPaciente.classList.replace('d-none','d-block');
+        $(descripcion).fadeOut();
+        $(formPaciente).delay(200).fadeIn();
     }
 
     //Asignada a un boton para comenzar el test
     function comenzarHars(){
         logPaciente();
-        formPaciente.classList.replace('d-block','d-none');
-        preguntasHars.classList.replace('d-none','d-block');
+        $(formPaciente).fadeOut();
+        $(preguntasHars).fadeIn();
     }
 
     //Asignada a un boton para obtener resultados, mostrarlos
     //y subir todos los datos al LocalStorage (mi DB provisoria)
     function mostrarResultados(){
         respuestasHars();
-        harsResultados(resultadosEscalaHars);
-        guardarPlanilla();
-        preguntasHars.classList.replace('d-block','d-none')
-        resultadosHarsHtml.classList.replace('d-none','d-block')
+
+        //checkeo que no queden intems sin responder
+        if (decicionesUsuario.length==14){
+            harsResultados(resultadosEscalaHars);
+            guardarPlanilla();
+            $(preguntasHars).fadeOut();
+            $(resultadosHarsHtml).fadeIn();
+        }
+        
     }
 /*~~~~~~~~~~~~*/
 
@@ -92,7 +102,7 @@ var resultadosEscalaHars= new EscalaHars();
     }
 
 
-    //Esta función simula una base de datos en la nube, hasta que aprenda algún metodo mejor de almacenamiento
+    //Esta función guarda los datos en el local storage
     function guardarPlanilla(){
         //convierto el objeto resultadosEscalaHars a Json y lo meto dentro del objeto paciente
         let jsonHars = JSON.stringify(resultadosEscalaHars);
@@ -111,39 +121,26 @@ var resultadosEscalaHars= new EscalaHars();
 
     //~~ESTA FUNCION RECORRE TODOS LOS IMPUTS Y ASIGNA LOS VALORES A UN ARRAY EN LA POSICION CORRESPONDIENTE~~
     function respuestasHars(){
-        //Este for recorre un array con los nombre de las 14 clases que van a tener los 5 radios dentro de cada uno de los 14 item
-        //y asigna el nombre de cada clase a la variable RadiosRespuesta
-        for (i=0;i<clasesRadiosRespuesta.length;i++){
-            let radiosRespuesta = document.getElementsByClassName(clasesRadiosRespuesta[i])
-            let numerodeItem = i+1 ;//Esta var es solamente para ayudarme en la consola
-        
-            // Como cada clase posee 5 radios con su nombre, con este for, recorro los 5 imputs
-            //y con un if me encargo de capturar el valor del radio que este tildado y agregarlo al array items
-            for (j=0; j<5; j++){
-                if (radiosRespuesta[j].checked){
-                    console.log("El item numero "+numerodeItem+" tuvo la respuesta "+radiosRespuesta[j].value);
-                    items[i] = radiosRespuesta[j].value;
-                }
-            }
 
-            //Este if sirve para validar que todos los items tengan un radio checkeado
-            //En caso de no no ser así llamo a la funcion alerta, que abre una ventana de alerta
-            if(items[i] == null){
-                console.log("El item numero "+numerodeItem+" no tiene respuesta")
-                alertaValidacionRadios();
-                break
-            }
+
+        decicionesUsuario = $( "input:checked.gradoAnsiedad" );
+
+        for (let i = 0; i < decicionesUsuario.length; i++) {
+
+            items.push(decicionesUsuario[i].value);
         }
+        if (decicionesUsuario.length<14){
+            return alertaValidacionRadios();
+        }
+        console.log(decicionesUsuario)
+
         console.log(items)
 
         //Aca divido el array item en dos array en base a la categoria de cada pregunta
-        //Al final asigne las variables al revés y quedó bien jaja
-        //Tampoco termino de entender por que despues del splice, se me duplica el elemento 13 del array items (por eso el .pop) 
         let itemsAnsiedadSomatica = items.splice(6,7,items[13]);
         items.pop()
         let itemsAnsiedadPsiquica =items;
 
-        console.log(itemsAnsiedadSomatica)
         console.log("ansiedadPsi "+ itemsAnsiedadPsiquica)
         console.log("ansiedadSo "+ itemsAnsiedadSomatica)
     
@@ -156,9 +153,9 @@ var resultadosEscalaHars= new EscalaHars();
         };
         
         //Asigno las propiedades al objeto
-        resultadosEscalaHars.aPsiquica=ansiedadPsiquica
-        resultadosEscalaHars.aSomatica=ansiedadSomatica
-        resultadosEscalaHars.ansiedadTotal=parseInt(ansiedadPsiquica)+parseInt(ansiedadSomatica)
+        resultadosEscalaHars.aPsiquica=ansiedadPsiquica;
+        resultadosEscalaHars.aSomatica=ansiedadSomatica;
+        resultadosEscalaHars.ansiedadTotal=parseInt(ansiedadPsiquica)+parseInt(ansiedadSomatica);
     }
 
 
@@ -185,7 +182,7 @@ var resultadosEscalaHars= new EscalaHars();
         }
         //imprimo el texto correspondiente en mi HTML
         let textoNivelesDeAnsiedad= document.createTextNode(texto);
-        nivelesDeAnsiedadHtml.appendChild(textoNivelesDeAnsiedad);
+        $(nivelesDeAnsiedadHtml).append(textoNivelesDeAnsiedad);
 
         //Si el puntaje es distinto de 0 los muestra en el HTML
         if(objetoEscalaHars.ansiedadTotal != 0){
@@ -197,9 +194,9 @@ var resultadosEscalaHars= new EscalaHars();
             let textoAPsicquica=document.createTextNode(texto2);
             let textoASomatica=document.createTextNode(texto3);
 
-            resultadoPrincipalHtml.appendChild(textoResultadoTotal);
-            resultadoAPsiquicaHtml.appendChild(textoAPsicquica);
-            resultadoASomaticaHtml.appendChild(textoASomatica);
+            $(resultadoPrincipalHtml).append(textoResultadoTotal);
+            $(resultadoAPsiquicaHtml).append(textoAPsicquica);
+            $(resultadoASomaticaHtml).append(textoASomatica);
         }
     
     }
@@ -209,9 +206,11 @@ var resultadosEscalaHars= new EscalaHars();
     function alertaValidacionRadios(){
         const nodoMain = document.getElementById("main");
         let agregarAlert= document.createElement('div');
+       
 
         agregarAlert.classList.add("alert","alert-danger","alert-dismissible","fade","show","alerta");
         agregarAlert.setAttribute('role', 'alert');
+        
         agregarAlert.innerHTML = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Quedan Items sin responder!</strong>';
 
         nodoMain.appendChild(agregarAlert)
