@@ -35,12 +35,15 @@ var decicionesUsuario;
 
 
 //Variables DOM
-const descripcion = $("#descripcionHars").show();
-const formPaciente = $("#formPaciente").hide()
-const preguntasHars = $("#pregutasHars").hide();
-const resultadosHarsHtml = $("#resultadosHars").hide();
+const descripcion = $("#descripcionHars");
+const formPaciente = $("#formPaciente");
+const preguntasHars = $("#pregutasHars");
+const resultadosHarsHtml = $("#resultadosHars");
 
-
+descripcion.show();
+formPaciente.hide();
+preguntasHars.hide();
+resultadosHarsHtml.hide();
 
 
 const nivelesDeAnsiedadHtml=$("#nivelesAnsiedad");
@@ -61,7 +64,7 @@ var resultadosEscalaHars= new EscalaHars();
     function cargarPaciente(){
 
         $(descripcion).fadeOut();
-        $(formPaciente).delay(200).fadeIn();
+        $(formPaciente).delay(500).fadeIn();
     }
 
     //Asignada a un boton para comenzar el test
@@ -81,7 +84,7 @@ var resultadosEscalaHars= new EscalaHars();
             harsResultados(resultadosEscalaHars);
             guardarPlanilla();
             $(preguntasHars).fadeOut();
-            $(resultadosHarsHtml).fadeIn();
+            $(resultadosHarsHtml).delay(300).fadeIn();
         }
         
     }

@@ -53,8 +53,6 @@
                             <li><a href="#contact">Contacto</a></li>
                         </ul>
                     </nav><!-- .nav-menu -->
-
-                    <a href="#about" class="get-started-btn scrollto">Regístrate</a>
                 </div>
         </div>
 
@@ -159,7 +157,7 @@
                   <ol>
                       <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="0">Ausente</label></li>
                       <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="1">Leve</label></li>
-                      <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" checked value="2">Moderado</label></li>
                       <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="3">Grave</label></li>
                       <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="4">Muy grave / Incapacitante</label></li>
                   </ol>
@@ -297,8 +295,8 @@
                   </ol>
                 </div>
                 <div class="row justify-content-center align-content-center">
-                  <button type="button" class="comenzar-button" onclick="mostrarResultados()">Obtener Resultados</button>
-                </div>
+                    <button type="button" class="comenzar-button" onclick="mostrarResultados() , location.href='#main'">Obtener Resultados</button>
+                  </div>
             </div>
             <!--~~~Resultados del Test~~~-->
             <div id="resultadosHars" class="row justify-content-center align-content-center">
