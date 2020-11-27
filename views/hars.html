@@ -80,20 +80,27 @@
         <div class="container justify-content-center mt-5 mb-5">
           
             <!--~~~Descripcion del Test~~~-->
+          
+
             <div id="descripcionHars">
-                <p class="test-description" data-aos="zoom-in" data-aos-delay="150">
-                  Hamilton Anxiety Rating Scale (HARS). Es
-                  una escala heteroadministrada de 14 ítems que evalúan el grado de ansiedad del paciente. Se aplica
-                  mediante entrevista semiestructurada, en la que el
-                  entrevistador evalúa la gravedad de los síntomas utilizando 5 opciones de respuesta ordinal (0: ausencia
-                  del síntoma; 4: síntoma muy grave o incapacitante).
-                  La puntuación total del instrumento, que se obtiene
-                  por la suma de las puntuaciones parciales de los 14
-                  ítemes, puede oscilar en un rango de 0 puntos (ausencia de ansiedad) a 56 (máximo grado de ansiedad). En su versión original, la escala ha demostrado
-                  poseer unas buenas propiedades psicométricas y
-                  es profusamente utilizada en la evaluación clínica del
-                  trastorno de ansiedad.
-                </p>
+                <div class="row">
+                    <div class="col-md-3">
+                      <img id="imagenApi">
+                    </div>
+                    <p class="test-description col-md-8" data-aos="zoom-in" data-aos-delay="150">
+                        Hamilton Anxiety Rating Scale (HARS). Es
+                        una escala heteroadministrada de 14 ítems que evalúan el grado de ansiedad del paciente. Se aplica
+                        mediante entrevista semiestructurada, en la que el
+                        entrevistador evalúa la gravedad de los síntomas utilizando 5 opciones de respuesta ordinal (0: ausencia
+                        del síntoma; 4: síntoma muy grave o incapacitante).
+                        La puntuación total del instrumento, que se obtiene
+                        por la suma de las puntuaciones parciales de los 14
+                        ítemes, puede oscilar en un rango de 0 puntos (ausencia de ansiedad) a 56 (máximo grado de ansiedad). En su versión original, la escala ha demostrado
+                        poseer unas buenas propiedades psicométricas y
+                        es profusamente utilizada en la evaluación clínica del
+                        trastorno de ansiedad.
+                    </p>
+                </div>
                 <div class="row justify-content-center align-content-center mt-5">
                   <button type="button" class="comenzar-button" onclick="cargarPaciente()">Comenzar Test</button>
                 </div>
@@ -299,7 +306,7 @@
                   </div>
             </div>
             <!--~~~Resultados del Test~~~-->
-            <div id="resultadosHars" class="row justify-content-center align-content-center">
+            <div id="resultadosHars" class=" container row text-sm-center text-md-left justify-content-center align-content-center">
               <h2 id="nivelesAnsiedad" class=" mb-3"></h2>
               <h3 id="resultadoPrincipal"></h3>
               <h3 id="resultadoPsi"></h3>
@@ -401,8 +408,28 @@
     <script src="../assets/vendor/aos/aos.js"></script>
     <script src="../assets/vendor/styles/styles.js"></script>
 
-  <!--  Main JS File -->
+  
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
 
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+     <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyD7J8yBmQvy4m9Ka1kmd-RVcR-XOvldIRc",
+    authDomain: "proyecto-javascript---homelab.firebaseapp.com",
+    databaseURL: "https://proyecto-javascript---homelab.firebaseio.com",
+    projectId: "proyecto-javascript---homelab",
+    storageBucket: "proyecto-javascript---homelab.appspot.com",
+    messagingSenderId: "429371215548",
+    appId: "1:429371215548:web:08d347e5ecdb7b9991cab9"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+<!--  Main JS File -->
     <script src="../assets/js/hars.js"></script>
 
 </body>

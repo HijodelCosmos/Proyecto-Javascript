@@ -1653,6 +1653,13 @@ section {
     HARS PAGE 
 --------------------------------------------------------------*/
 /* Descripcion de test */
+#imagenApi{
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
+  box-shadow: 5px 7px 19px 1px rgba(0,0,0,0.63);
+  border-radius: 300px 300px 300px 300px;
+}
 .test-description{
   text-align: justify;
   font-size: 16px;
@@ -1773,6 +1780,4 @@ section {
 #resultadosHars{
   display: block;
 }
-#resultadosHars h3{
-  text-indent: 30px;
-}
+

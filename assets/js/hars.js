@@ -5,7 +5,7 @@
  es para seguir el progreso de las terapias o tener una vision global del estadao del paciente
  Los items 1,2,3,4,5,6 y 14 corresponden a sintomaas psiquicos; y los items 7,8,9,10,11,12 y 13 son sintomas somáticos
  El programa suma las respuestas y devuelve el grado de gravedad de ansiedad y la necesidad de tratamiento*/
-
+ const db = firebase.firestore();
 
 /*Creadores de objeto*/
 function PlanillaDePaciente(nombre,edad,sexo,eMail,resultadosEscalaHars){
@@ -58,6 +58,19 @@ var paciente = new PlanillaDePaciente();
 var resultadosEscalaHars= new EscalaHars();
 
 
+
+//<<<<<<<<<<<<<<<<<<<Api!>>>>>>>>>>>>>>>>>>
+
+   $.ajax({
+       method:'GET',
+       url:"https://api.unsplash.com/photos/random/?query=happy&client_id=pwD9cff2DmbKNg_DPRlurONhO_2rhFH1JDXG_WUN5o4",
+       success:function(photo){
+           console.log(photo)
+           $("#imagenApi").attr("src",photo.urls.small)
+       }
+   })
+   
+//<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>
 
 /*~~~EVENTOS~~~*/
     //Asignada a un boton para cargar los datos del paciente
