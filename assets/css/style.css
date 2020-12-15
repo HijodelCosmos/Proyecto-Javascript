@@ -1710,11 +1710,12 @@ section {
   font-size: 20px;
   font-weight: 500;
 }
-#inputEdad{
+#inputEdad, .inputEdad{
   width: 100px;
+  display: block;
 }
 
-#inputSexo{
+#inputSexo,.inputSexo{
   
   border-radius: 5px;
   font-size: 21px;
@@ -1730,7 +1731,6 @@ section {
   outline:0;
   color: #695ecd;
 }
-
 
 /*Seccion de Preguntas*/
 #pregutasHars{
@@ -1781,3 +1781,11 @@ section {
   display: block;
 }
 
+/*Tabla pacientes*/
+
+.rowPaciente{
+  background-color: #f2f6f9;
+}
+.rowPaciente:hover{
+  background-color: rgba(146, 45, 161, 0.423);
+}

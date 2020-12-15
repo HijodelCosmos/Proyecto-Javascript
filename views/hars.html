@@ -44,7 +44,7 @@
                             <li class="active"><a href="../index.html">Inicio</a></li>
                             <li><a href="../index.html#about">Que hacemos</a></li>
                             <li><a href="../index.html#services">Servicios</a></li>
-                            <li><a href="#team">Equipo</a></li>
+                            <li><a href="./pacientes.html">Pacientes</a></li>
                             <li class="drop-down"><a href="">Herramientas</a>
                                 <ul>
                                     <li><a href="./hars.html#main">Escala HARS</a></li>
@@ -67,7 +67,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Escala de Ansiedad de Hamilton (HARS)</h2>
                 <ol>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="../index.html">Home</a></li>
                     <li><a href="#">Herramientas</a></li>
                     <li>HARS</li>
                 </ol>
@@ -80,37 +80,35 @@
         <div class="container justify-content-center mt-5 mb-5">
           
             <!--~~~Descripcion del Test~~~-->
-          
+            <!--PRUEBAAA-->
+            <div class="container">
+              <img id="imagenPrueba" >
+            </div>
 
             <div id="descripcionHars">
-                <div class="row">
-                    <div class="col-md-3">
-                      <img id="imagenApi">
-                    </div>
-                    <p class="test-description col-md-8" data-aos="zoom-in" data-aos-delay="150">
-                        Hamilton Anxiety Rating Scale (HARS). Es
-                        una escala heteroadministrada de 14 ítems que evalúan el grado de ansiedad del paciente. Se aplica
-                        mediante entrevista semiestructurada, en la que el
-                        entrevistador evalúa la gravedad de los síntomas utilizando 5 opciones de respuesta ordinal (0: ausencia
-                        del síntoma; 4: síntoma muy grave o incapacitante).
-                        La puntuación total del instrumento, que se obtiene
-                        por la suma de las puntuaciones parciales de los 14
-                        ítemes, puede oscilar en un rango de 0 puntos (ausencia de ansiedad) a 56 (máximo grado de ansiedad). En su versión original, la escala ha demostrado
-                        poseer unas buenas propiedades psicométricas y
-                        es profusamente utilizada en la evaluación clínica del
-                        trastorno de ansiedad.
-                    </p>
-                </div>
+                <p class="test-description" data-aos="zoom-in" data-aos-delay="150">
+                  Hamilton Anxiety Rating Scale (HARS). Es
+                  una escala heteroadministrada de 14 ítems que evalúan el grado de ansiedad del paciente. Se aplica
+                  mediante entrevista semiestructurada, en la que el
+                  entrevistador evalúa la gravedad de los síntomas utilizando 5 opciones de respuesta ordinal (0: ausencia
+                  del síntoma; 4: síntoma muy grave o incapacitante).
+                  La puntuación total del instrumento, que se obtiene
+                  por la suma de las puntuaciones parciales de los 14
+                  ítemes, puede oscilar en un rango de 0 puntos (ausencia de ansiedad) a 56 (máximo grado de ansiedad). En su versión original, la escala ha demostrado
+                  poseer unas buenas propiedades psicométricas y
+                  es profusamente utilizada en la evaluación clínica del
+                  trastorno de ansiedad.
+                </p>
                 <div class="row justify-content-center align-content-center mt-5">
-                  <button type="button" class="comenzar-button" onclick="cargarPaciente()">Comenzar Test</button>
+                  <button id="comenzarTest" type="button" class="comenzar-button">Comenzar Test</button>
                 </div>
             </div>
 
              <!--~~~Carga de datos del Paciente~~~-->
-            <div id="formPaciente" class="row justify-content-center ">
-                <h2 class="col-12 mb-5 text-center">Ingrese los datos del Paciente</h2>
-                <form class="align-content-center">
+                <form id="formPaciente" class="row justify-content-center align-content-center">
+                    <h2 class="col-12 mb-5 text-center">Ingrese los datos del Paciente</h2>
                     <input id="inputNombre" type="text" class="inputPaciente d-block mx-auto" aria-describedby="nombrePaciente" placeholder="Nombre y Apellido">
+                    <input id="inputDni" type="number" class="inputPaciente d-block mx-auto" aria-describedby="dniPaciente" placeholder="D.N.I.">
                     <input id="inputEdad" type="number" class="inputPaciente d-block mx-auto" aria-describedby="edadPaciente" placeholder="Edad">
                     <select id="inputSexo" class="d-block mx-auto" name="sexo">
                         <option value="" disabled selected hidden class="etiquetaSelect mx-auto">Sexo</option>
@@ -118,14 +116,11 @@
                         <option value="Masculino">Masculino</option>
                         <option value="Otro">Otro</option>
                     </select>
-                      <input id="inputEmail" type="email" class="inputPaciente d-block mx-auto" placeholder="Email del paciente">
+                    <input id="inputEmail" type="email" class="inputPaciente d-block mx-auto" placeholder="Email del paciente">
+                    <div class="row justify-content-center align-content-center mt-5">
+                      <button id="cargarPaciente" type="button" class="comenzar-button">Cargar y Continuar</button>
+                    </div>
                 </form>
-                <div class="row justify-content-center align-content-center mt-5">
-                  <button type="button" class="comenzar-button" onclick="comenzarHars()">Continuar</button>
-                </div>
-            </div>
-
-
 
             <div id="pregutasHars" class="row justify-content-center align-content-center mt-5 mb-5">
 
@@ -164,7 +159,7 @@
                   <ol>
                       <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="0">Ausente</label></li>
                       <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="1">Leve</label></li>
-                      <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" checked value="2">Moderado</label></li>
+                      <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="2">Moderado</label></li>
                       <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="3">Grave</label></li>
                       <li><label><input class="gradoAnsiedad" type="radio" name="gradoAnsiedadI2" value="4">Muy grave / Incapacitante</label></li>
                   </ol>
@@ -302,11 +297,11 @@
                   </ol>
                 </div>
                 <div class="row justify-content-center align-content-center">
-                    <button type="button" class="comenzar-button" onclick="mostrarResultados() , location.href='#main'">Obtener Resultados</button>
+                    <button id="mostrarResultados" type="button" class="comenzar-button">Obtener Resultados</button>
                   </div>
             </div>
             <!--~~~Resultados del Test~~~-->
-            <div id="resultadosHars" class=" container row text-sm-center text-md-left justify-content-center align-content-center">
+            <div id="resultadosHars" class="row justify-content-center align-content-center p-2">
               <h2 id="nivelesAnsiedad" class=" mb-3"></h2>
               <h3 id="resultadoPrincipal"></h3>
               <h3 id="resultadoPsi"></h3>
@@ -393,7 +388,7 @@
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-  <!--<div id="preloader"></div> La quito momentaneamente para que cargue la pantalla antes que los prompts-->
+  <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
 
@@ -412,9 +407,9 @@
     <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-     <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<!--TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
 <script>
   // Your web app's Firebase configuration
   var firebaseConfig = {

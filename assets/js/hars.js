@@ -1,26 +1,24 @@
 
-/*Este programa consiste en aplicar el test de ansiedad de hamilton(HARS) a un paciente, el profesional va a ir completando
- los datos del paciente durante una entrevista. Comenzado el test, va completando el grado de intensidad que percibe (de 0 a 4)
- en los 14 items que corresponden a distintos sintomas de ansiedad. EL test es muy simple ya que su principal funcionalidad
- es para seguir el progreso de las terapias o tener una vision global del estadao del paciente
- Los items 1,2,3,4,5,6 y 14 corresponden a sintomaas psiquicos; y los items 7,8,9,10,11,12 y 13 son sintomas somáticos
- El programa suma las respuestas y devuelve el grado de gravedad de ansiedad y la necesidad de tratamiento*/
- const db = firebase.firestore();
+//Variables de mi DB
+const db = firebase.firestore();
+
 
 /*Creadores de objeto*/
-function PlanillaDePaciente(nombre,edad,sexo,eMail,resultadosEscalaHars){
+function PlanillaDePaciente(nombre,dni,edad,sexo,eMail,resultadosEscalaHars){
     this.nombre=nombre;
+    this.dni=dni;
     this.edad=edad;
     this.sexo=sexo;
     this.eMail=eMail;
     this.resultadosEscalaHars=resultadosEscalaHars; /*Propiedad privada y corresponde al resultado total del test*/
 }
 
-function EscalaHars(fechaDeTesteo,puntajeDeAnsiedadPsiquica,puntajeDeAnsiedadSomatica,ansiedadTotal){
+function EscalaHars(fechaDeTesteo,puntajeDeAnsiedadPsiquica,puntajeDeAnsiedadSomatica,ansiedadTotal,gravedadDeSintomas){
     this.fecha=fechaDeTesteo;
     this.aPsiquica=puntajeDeAnsiedadPsiquica;
     this.aSomatica=puntajeDeAnsiedadSomatica;
     this.ansiedadTotal=ansiedadTotal;
+    this.sintomas=gravedadDeSintomas;
 }
 
 
@@ -30,131 +28,108 @@ var ansiedadPsiquica=0;
 var ansiedadSomatica=0;
 var puntajeTotalHars=0;
 var decicionesUsuario;
-
-
-
-
-//Variables DOM
-const descripcion = $("#descripcionHars");
-const formPaciente = $("#formPaciente");
-const preguntasHars = $("#pregutasHars");
-const resultadosHarsHtml = $("#resultadosHars");
-
-descripcion.show();
-formPaciente.hide();
-preguntasHars.hide();
-resultadosHarsHtml.hide();
-
-
-const nivelesDeAnsiedadHtml=$("#nivelesAnsiedad");
-const resultadoPrincipalHtml= $("#resultadoPrincipal");
-const resultadoAPsiquicaHtml=$("#resultadoPsi");
-const resultadoASomaticaHtml=$("#resultadoSom");
-//La Sig Variable, es un array con el nombre de las clases de los imputs radio
-const clasesRadiosRespuesta = ["gradoAnsiedadI1","gradoAnsiedadI2","gradoAnsiedadI3","gradoAnsiedadI4","gradoAnsiedadI5","gradoAnsiedadI6","gradoAnsiedadI7","gradoAnsiedadI8","gradoAnsiedadI9","gradoAnsiedadI10","gradoAnsiedadI11","gradoAnsiedadI12","gradoAnsiedadI13","gradoAnsiedadI14"];
-
 //Creo los objetos de Scope Global
 var paciente = new PlanillaDePaciente();
 var resultadosEscalaHars= new EscalaHars();
 
 
 
-//<<<<<<<<<<<<<<<<<<<Api!>>>>>>>>>>>>>>>>>>
 
+//***Variables DOM***
+//Secciones
+const nodoMain = $("#main");
+const descripcion = $("#descripcionHars");
+const formPaciente = $("#formPaciente");
+const preguntasHars = $("#pregutasHars");
+const resultadosHarsHtml = $("#resultadosHars");
+const tablaPacientes = $('#datosDePacientes');
+
+//Botones
+const btnComenzarTest =$("#comenzarTest");
+const btnCargarPaciente = $("#cargarPaciente");
+const btnResultados = $("#mostrarResultados");
+//Resultados
+const nivelesDeAnsiedadHtml=$("#nivelesAnsiedad");
+const resultadoPrincipalHtml= $("#resultadoPrincipal");
+const resultadoAPsiquicaHtml=$("#resultadoPsi");
+const resultadoASomaticaHtml=$("#resultadoSom");
+
+/*<<<<<<<<<<<<<<<<<<< API>>>>>>>>>>>>>>>>>>>>>
    $.ajax({
        method:'GET',
-       url:"https://api.unsplash.com/photos/random/?query=happy&client_id=pwD9cff2DmbKNg_DPRlurONhO_2rhFH1JDXG_WUN5o4",
+       url:"https://api.unsplash.com/photos/random/?client_id=pwD9cff2DmbKNg_DPRlurONhO_2rhFH1JDXG_WUN5o4",
+       client_id:"pwD9cff2DmbKNg_DPRlurONhO_2rhFH1JDXG_WUN5o4",
        success:function(photo){
            console.log(photo)
-           $("#imagenApi").attr("src",photo.urls.small)
+           $("#imagenPrueba").attr("src",photo.urls.small)
        }
    })
-   
-//<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>
+*/
+/*~~~EVENTOS SPA~~~*/
+    descripcion.show();
+    formPaciente.hide();
+    preguntasHars.hide();
+    resultadosHarsHtml.hide();
 
-/*~~~EVENTOS~~~*/
-    //Asignada a un boton para cargar los datos del paciente
-    function cargarPaciente(){
-
+    //Comenzar el test y ver formPaciente
+    $(btnComenzarTest).click(()=>{
         $(descripcion).fadeOut();
         $(formPaciente).delay(500).fadeIn();
-    }
+    })
 
-    //Asignada a un boton para comenzar el test
-    function comenzarHars(){
+    //Cargar paciente y comenzar el test
+    $(btnCargarPaciente).click(()=>{
         logPaciente();
         $(formPaciente).fadeOut();
         $(preguntasHars).fadeIn();
-    }
+    })
 
-    //Asignada a un boton para obtener resultados, mostrarlos
-    //y subir todos los datos al LocalStorage (mi DB provisoria)
-    function mostrarResultados(){
+    //Obtener y mostrar resultados
+    $(btnResultados).click(()=>{
         respuestasHars();
-
         //checkeo que no queden intems sin responder
         if (decicionesUsuario.length==14){
             harsResultados(resultadosEscalaHars);
-            guardarPlanilla();
             $(preguntasHars).fadeOut();
             $(resultadosHarsHtml).delay(300).fadeIn();
+            //Subo los datos a mi DB
+            subirPaciente(paciente)
         }
-        
-    }
+    })
 /*~~~~~~~~~~~~*/
-
 
 /*==================FUNCIONES DEL TEST HARS=================*/
 
     /*Funcion para que el usuario cargue los datos del paciente*/
     function logPaciente(){
-        paciente.nombre = document.getElementById("inputNombre").value;
-        paciente.edad = document.getElementById("inputEdad").value;
-        paciente.sexo = document.getElementById("inputSexo").value;
-        paciente.eMail = document.getElementById("inputEmail").value;
+        paciente.nombre = $("#inputNombre").val().toLowerCase();
+        paciente.dni = $("#inputDni").val();
+        paciente.edad = $("#inputEdad").val();
+        paciente.sexo = $("#inputSexo").val();
+        paciente.eMail = $("#inputEmail").val();
         paciente.resultadosEscalaHars = null;
 
         sessionStorage.setItem('nombrePaciente',paciente.nombre);
+        console.log("Nombre de Paciente: "+paciente.nombre)
     }
 
-
-    //Esta función guarda los datos en el local storage
-    function guardarPlanilla(){
-        //convierto el objeto resultadosEscalaHars a Json y lo meto dentro del objeto paciente
-        let jsonHars = JSON.stringify(resultadosEscalaHars);
-        paciente.resultadosEscalaHars=jsonHars;
-
-        let jsonPaciente = JSON.stringify(paciente);
-        let numeroDePlanillas = localStorage.getItem('Cantidad de Planillas');
-        if(numeroDePlanillas==null){
-            numeroDePlanillas=0
-        }
-        numeroDePlanillas = parseInt(numeroDePlanillas)+1;
-
-        localStorage.setItem('Paciente Nro'+numeroDePlanillas , jsonPaciente)
-        localStorage.setItem('Cantidad de Planillas',numeroDePlanillas)
-    }
 
     //~~ESTA FUNCION RECORRE TODOS LOS IMPUTS Y ASIGNA LOS VALORES A UN ARRAY EN LA POSICION CORRESPONDIENTE~~
     function respuestasHars(){
-
-
         decicionesUsuario = $( "input:checked.gradoAnsiedad" );
 
         for (let i = 0; i < decicionesUsuario.length; i++) {
-
             items.push(decicionesUsuario[i].value);
         }
         if (decicionesUsuario.length<14){
             return alertaValidacionRadios();
         }
         console.log(decicionesUsuario)
-
         console.log(items)
 
         //Aca divido el array item en dos array en base a la categoria de cada pregunta
         let itemsAnsiedadSomatica = items.splice(6,7,items[13]);
-        items.pop()
+        items.pop();
         let itemsAnsiedadPsiquica =items;
 
         console.log("ansiedadPsi "+ itemsAnsiedadPsiquica)
@@ -172,8 +147,11 @@ var resultadosEscalaHars= new EscalaHars();
         resultadosEscalaHars.aPsiquica=ansiedadPsiquica;
         resultadosEscalaHars.aSomatica=ansiedadSomatica;
         resultadosEscalaHars.ansiedadTotal=parseInt(ansiedadPsiquica)+parseInt(ansiedadSomatica);
-    }
 
+        //Borro el alert de validación en caso de que exista
+        $(".alertValidacion").fadeOut();
+        $(nodoMain).remove(".alertValidacion")
+    }
 
     //Esta funcion interpreta los resultados para devolver al usuario el tipo de síntomas que tiene el paciente
     function harsResultados(objetoEscalaHars){
@@ -182,18 +160,22 @@ var resultadosEscalaHars= new EscalaHars();
 
             case objetoEscalaHars.ansiedadTotal == 0:
                 texto = "El paciente no presenta sintomás de Ansiedad, sus puntajes son de 0 en todos los items.";
+                resultadosEscalaHars.sintomas="No presenta síntomas";
                 break;
 
             case objetoEscalaHars.ansiedadTotal < 17:
                 texto ="El paciente posee niveles de severidad de Ansiedad leves:";
+                resultadosEscalaHars.sintomas="Presenta síntomas leves";
                 break;
 
             case objetoEscalaHars.ansiedadTotal > 17 && objetoEscalaHars.ansiedadTotal < 24:
                 texto ="Los niveles de Ansiedad van de moderados a severos:";
+                resultadosEscalaHars.sintomas="Presenta síntomas de moderados o severos";
                 break;
 
             case objetoEscalaHars.ansiedadTotal > 24 && objetoEscalaHars.ansiedadTotal < 56:
                 texto =" Los niveles de Ansiedad son muy severos e incapacitantes:";
+                resultadosEscalaHars.sintomas="Presenta síntomas de severos a incapacitantes";
                 break;
         }
         //imprimo el texto correspondiente en mi HTML
@@ -216,19 +198,215 @@ var resultadosEscalaHars= new EscalaHars();
         }
     
     }
-
-
-    //Esta función es para agregar una ventana de alerta en mi HTML cuando falta algun item de responder
+/*========FUNCIONES UTILES========*/
+//Esta función es para agregar una ventana de alerta en mi HTML cuando falta algun item de responder
     function alertaValidacionRadios(){
-        const nodoMain = document.getElementById("main");
-        let agregarAlert= document.createElement('div');
-       
-
-        agregarAlert.classList.add("alert","alert-danger","alert-dismissible","fade","show","alerta");
-        agregarAlert.setAttribute('role', 'alert');
         
-        agregarAlert.innerHTML = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Quedan Items sin responder!</strong>';
+        const alertValidacion= document.createElement('div');
 
-        nodoMain.appendChild(agregarAlert)
+        $(alertValidacion).addClass("alert alert-danger alert-dismissible fade show alerta alertValidacion");
+        $(alertValidacion).attr('role','alert');
+        $(alertValidacion).html('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Quedan Items sin responder!</strong>');
 
+        $(nodoMain).append($(alertValidacion).hide());
+        $(alertValidacion).delay('500').fadeIn();
     }
+    //Esta función guarda datos en el local storage
+    //Fuera de uso por ahora
+function guardarPlanilla(){
+    let jsonHars = JSON.stringify(resultadosEscalaHars);
+    paciente.resultadosEscalaHars=jsonHars;
+
+    let jsonPaciente = JSON.stringify(paciente);
+    let numeroDePlanillas = localStorage.getItem('Cantidad de Planillas');
+    if(numeroDePlanillas==null){
+        numeroDePlanillas=0
+    }
+    numeroDePlanillas = parseInt(numeroDePlanillas)+1;
+
+    localStorage.setItem('Paciente Nro'+numeroDePlanillas , jsonPaciente)
+    localStorage.setItem('Cantidad de Planillas',numeroDePlanillas)
+}
+//Esta función usa Expreciones regulares para poner la primera letra de cada palabra en mayuscula
+function pasarStrMayuscula(string) {
+    let strMayus= string.replace(/\b[a-z]/g, function(letter) { 
+        return letter.toUpperCase()}
+        );
+    return strMayus
+}
+
+
+//================BASE DE DATOS=====================
+const getPacientes= () => db.collection("pacientes").get();
+
+//Subo los obj pacientes a mi CloudFireStore 
+    function subirPaciente(objPaciente){
+        //Dentro del doc() defino el Id de cada objeto en mi DB, decidí usar el dni por que es unico de cada persona
+        let dbPaciente=db.collection('pacientes').doc(objPaciente.dni).set({
+            nombre: objPaciente.nombre,
+            dni: objPaciente.dni,
+            edad: objPaciente.edad,
+            sexo: paciente.sexo,
+            eMail: paciente.eMail,
+            escalaHars:{
+                'resultadoAnsiedadPsiquica': resultadosEscalaHars.aPsiquica,
+                'resultadoAnsiedadSomatica': resultadosEscalaHars.aSomatica,
+                'resultadoAnsiedadTotal': resultadosEscalaHars.ansiedadTotal,
+                'gravedadDeSintomas': resultadosEscalaHars.sintomas,
+            }
+        })
+        console.log(dbPaciente)
+    }
+
+
+//Obtener datos de la nube e insertarlos en la tabla
+window.addEventListener('DOMContentLoaded', async(e) => {
+
+    let querySnapshot = await getPacientes(); //Así denomínan los datos en la bibliografía de google
+    querySnapshot.forEach(doc => {
+        const paciente=doc.data();
+
+            //A esta variable la voy a usar para identificar de forma unica cada elemento en el dom que corresponde a cada paciente
+            paciente.id=doc.id; 
+
+        //Paso las primeras letras del nombre a Mayúsculas
+        let nombrePaciente = pasarStrMayuscula(paciente.nombre)
+
+        //Inserto en el DOM los datos de los pacientes dentro de una tabla
+        tablaPacientes.append(
+            `<tr class="rowPaciente">
+                <th>${nombrePaciente}</th>
+                <td>${paciente.dni}</td>
+                <td>${paciente.edad}</td>
+                <td>${paciente.sexo}</td>
+                <td>${paciente.eMail}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalPaciente${paciente.id}">
+                    Más
+                    </button>
+                    <div class="modal" id="modalPaciente${paciente.id}" tabindex="-1" role="dialog" aria-labelledby="modalPacienteLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h3 class="modal-title" id="modalPacienteLabel">${nombrePaciente}</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div id="modal-body-${paciente.id}" class="modal-body">
+                            <div id="modalBodyDatos${paciente.id}">
+                                <dl>
+                                    <dt>Datos Personales:</dt>
+                                    <dd class="ml-3">DNI: ${paciente.dni}</dd>
+                                    <dd class="ml-3">Edad: ${paciente.edad}</dd>
+                                    <dd class="ml-3">Sexo: ${paciente.sexo}</dd>
+                                    <dd class="ml-3">Email: ${paciente.eMail}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Resultados Escala Hars:</dt>
+                                    <dd class="ml-3">${paciente.escalaHars.gravedadDeSintomas}</dd>
+                                    <dd class="ml-3">Ansiedad Total: ${paciente.escalaHars.resultadoAnsiedadTotal}</dd>
+                                    <dd class="ml-3">Ansiedad Psíquica: ${paciente.escalaHars.resultadoAnsiedadPsiquica}</dd>
+                                    <dd class="ml-3">Ansiedad Psíquica: ${paciente.escalaHars.resultadoAnsiedadSomatica}</dd>
+                                </dl>
+                            </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btnEditar" data-id="${paciente.id}">Editar</button>
+                            <button type="button" class="btn btn-danger btnBorrar" data-id="${paciente.id}" data-dismiss="modal">Borrar</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>`)
+
+        //Inserto un form para Editar los Datos
+        $(`#modal-body-${paciente.id}`).append(`<form id="formModalPaciente-${paciente.id}" class="justify-content-center align-content-center">
+        <h2 class="col-12 mb-5 text-center">Editar datos del Paciente</h2>
+        <input id="inputNombre-${paciente.id}" type="text" class="inputPaciente d-block mx-auto" aria-describedby="nombrePaciente" placeholder="${nombrePaciente}">
+        <input id="inputDni-${paciente.id}" type="number" class="inputPaciente d-block mx-auto" aria-describedby="dniPaciente" placeholder="${paciente.dni}">
+        <input id="inputEdad-${paciente.id}" type="number" class="inputPaciente d-block mx-auto inputEdad" aria-describedby="edadPaciente" placeholder="${paciente.edad}">
+        <select id="inputSexo-${paciente.id}" class="d-block mx-auto inputSexo" name="sexo">
+            <option value="" disabled selected hidden class="etiquetaSelect mx-auto">${paciente.sexo}</option>
+            <option value="Femenino" >Femenino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Otro">Otro</option>
+        </select>
+        <input id="inputEmail-${paciente.id}" type="email" class="inputPaciente d-block mx-auto" placeholder="${paciente.eMail}">
+        <div class="row justify-content-center align-content-center mt-5">
+        <button type="button" class="btn btn-primary btnEditar" data-id="${paciente.id}">Guardar Cambios</button>
+        </div>
+        </form>`)
+        $(`#formModalPaciente-${paciente.id}`).hide()
+    })
+
+    const btnsBorrar = document.querySelectorAll('.btnBorrar'); //Si lo selecciono con jQuery el forEach no lo interpreta como un array
+    //Este evento recorre todos los botones de borrar de cada paciente
+    btnsBorrar.forEach(btn => {
+        btn.addEventListener('click',(e)=>{
+            borrarPaciente(e.target.dataset.id)
+        })
+    })
+
+      //-------------sacar de acaa-------
+        const btnsEditar = document.querySelectorAll(".btnEditar")
+    
+    btnsEditar.forEach(btn => {
+        btn.addEventListener('click', e =>{
+            let id= e.target.dataset.id
+            $(`#modalBodyDatos${id}`).fadeOut();
+            $(`#formModalPaciente-${id}`).delay(1500)
+            $(`#formModalPaciente-${id}`).fadeIn(1000)
+        })
+        //------------------------------
+    })
+    aplicarDataTable()
+})
+
+/*
+const modalBodyEditarPaciente=`
+<form id="formModalPaciente" class="row justify-content-center align-content-center">
+    <h2 class="col-12 mb-5 text-center">Editar datos del Paciente</h2>
+    <input id="inputNombre" type="text" class="inputPaciente d-block mx-auto" aria-describedby="nombrePaciente" placeholder="${nombrePaciente}">
+    <input id="inputDni" type="number" class="inputPaciente d-block mx-auto" aria-describedby="dniPaciente" placeholder="${paciente.dni}">
+    <input id="inputEdad" type="number" class="inputPaciente d-block mx-auto" aria-describedby="edadPaciente" placeholder="${paciente.edad}">
+    <select id="inputSexo" class="d-block mx-auto" name="sexo">
+        <option value="" disabled selected hidden class="etiquetaSelect mx-auto">${paciente.sexo}</option>
+        <option value="Femenino" >Femenino</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Otro">Otro</option>
+    </select>
+    <input id="inputEmail" type="email" class="inputPaciente d-block mx-auto" placeholder="${paciente.eMail}>
+    <div class="row justify-content-center align-content-center mt-5">
+    <button type="button" class="btn btn-primary btnEditar" data-id="${paciente.id}">Guardar Cambios</button>
+    </div>
+</form>`
+*/
+
+
+//funcion para borrar de la base de datos los pacientes
+function borrarPaciente(id){
+    db.collection('pacientes').doc(id).delete();
+}
+
+function aplicarDataTable() {
+    $('#tablaPacientes').DataTable({
+    //Cambio el lenguaje a español
+        "language": {
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sSearch": "Buscar:",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast":"Último",
+                    "sNext":"Siguiente",
+                    "sPrevious": "Anterior"
+                    },
+                    "sProcessing":"Procesando...",
+            }
+    });
+}
