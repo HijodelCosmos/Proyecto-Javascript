@@ -234,29 +234,57 @@ function pasarStrMayuscula(string) {
         );
     return strMayus
 }
+//Aplicar la Biblioteca dataTable a mi Tabla de pacientes
+function aplicarDataTable() {
+    $('#tablaPacientes').DataTable({
+    //Cambio el lenguaje a español
+        "language": {
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sSearch": "Buscar:",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast":"Último",
+                    "sNext":"Siguiente",
+                    "sPrevious": "Anterior"
+                    },
+                    "sProcessing":"Procesando...",
+            }
+    });
+}
 
 
-//================BASE DE DATOS=====================
+//==============================BASE DE DATOS============================
 const getPacientes= () => db.collection("pacientes").get();
 
 //Subo los obj pacientes a mi CloudFireStore 
-    function subirPaciente(objPaciente){
-        //Dentro del doc() defino el Id de cada objeto en mi DB, decidí usar el dni por que es unico de cada persona
-        let dbPaciente=db.collection('pacientes').doc(objPaciente.dni).set({
-            nombre: objPaciente.nombre,
-            dni: objPaciente.dni,
-            edad: objPaciente.edad,
-            sexo: paciente.sexo,
-            eMail: paciente.eMail,
-            escalaHars:{
-                'resultadoAnsiedadPsiquica': resultadosEscalaHars.aPsiquica,
-                'resultadoAnsiedadSomatica': resultadosEscalaHars.aSomatica,
-                'resultadoAnsiedadTotal': resultadosEscalaHars.ansiedadTotal,
-                'gravedadDeSintomas': resultadosEscalaHars.sintomas,
-            }
-        })
-        console.log(dbPaciente)
-    }
+function subirPaciente(objPaciente){
+    let dbPaciente=db.collection('pacientes').doc().set({
+        nombre: objPaciente.nombre,
+        dni: objPaciente.dni,
+        edad: objPaciente.edad,
+        sexo: paciente.sexo,
+        eMail: paciente.eMail,
+        escalaHars:{
+            'resultadoAnsiedadPsiquica': resultadosEscalaHars.aPsiquica,
+            'resultadoAnsiedadSomatica': resultadosEscalaHars.aSomatica,
+            'resultadoAnsiedadTotal': resultadosEscalaHars.ansiedadTotal,
+            'gravedadDeSintomas': resultadosEscalaHars.sintomas,
+        }
+    })
+    console.log(dbPaciente)
+}
+
+function editarPacienteDB(id,pacienteActualizado){
+    db.collection('pacientes').doc(id).update(pacienteActualizado)
+}
+//funcion para borrar de la base de datos los pacientes
+function borrarPacienteDB(id){
+    db.collection('pacientes').doc(id).delete();
+}
 
 
 //Obtener datos de la nube e insertarlos en la tabla
@@ -266,8 +294,8 @@ window.addEventListener('DOMContentLoaded', async(e) => {
     querySnapshot.forEach(doc => {
         const paciente=doc.data();
 
-            //A esta variable la voy a usar para identificar de forma unica cada elemento en el dom que corresponde a cada paciente
-            paciente.id=doc.id; 
+        //A esta variable la voy a usar para identificar de forma unica cada elemento en el dom que corresponde a cada paciente
+        paciente.id=doc.id; 
 
         //Paso las primeras letras del nombre a Mayúsculas
         let nombrePaciente = pasarStrMayuscula(paciente.nombre)
@@ -288,7 +316,7 @@ window.addEventListener('DOMContentLoaded', async(e) => {
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h3 class="modal-title" id="modalPacienteLabel">${nombrePaciente}</h3>
+                            <h3 class="modal-title" id="modalPacienteLabel${paciente.id}">${nombrePaciente}</h3>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -311,9 +339,11 @@ window.addEventListener('DOMContentLoaded', async(e) => {
                                 </dl>
                             </div>
                             </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-primary btnEditar" data-id="${paciente.id}">Editar</button>
-                            <button type="button" class="btn btn-danger btnBorrar" data-id="${paciente.id}" data-dismiss="modal">Borrar</button>
+                            <div class="modal-footer" id="modal-footer-${paciente.id}">
+                            <div id="bnts-datos-${paciente.id}">
+                                <button type="button" class="btn btn-primary btnEditar" data-id="${paciente.id}">Editar</button>
+                                <button type="button" class="btn btn-danger btnBorrar" data-id="${paciente.id}" data-dismiss="modal">Borrar</button>
+                            </div>
                             </div>
                         </div>
                         </div>
@@ -321,9 +351,8 @@ window.addEventListener('DOMContentLoaded', async(e) => {
                 </td>
             </tr>`)
 
-        //Inserto un form para Editar los Datos
+        //Inserto un form para Editar los Datos y lo oculto
         $(`#modal-body-${paciente.id}`).append(`<form id="formModalPaciente-${paciente.id}" class="justify-content-center align-content-center">
-        <h2 class="col-12 mb-5 text-center">Editar datos del Paciente</h2>
         <input id="inputNombre-${paciente.id}" type="text" class="inputPaciente d-block mx-auto" aria-describedby="nombrePaciente" placeholder="${nombrePaciente}">
         <input id="inputDni-${paciente.id}" type="number" class="inputPaciente d-block mx-auto" aria-describedby="dniPaciente" placeholder="${paciente.dni}">
         <input id="inputEdad-${paciente.id}" type="number" class="inputPaciente d-block mx-auto inputEdad" aria-describedby="edadPaciente" placeholder="${paciente.edad}">
@@ -334,79 +363,73 @@ window.addEventListener('DOMContentLoaded', async(e) => {
             <option value="Otro">Otro</option>
         </select>
         <input id="inputEmail-${paciente.id}" type="email" class="inputPaciente d-block mx-auto" placeholder="${paciente.eMail}">
-        <div class="row justify-content-center align-content-center mt-5">
-        <button type="button" class="btn btn-primary btnEditar" data-id="${paciente.id}">Guardar Cambios</button>
-        </div>
-        </form>`)
-        $(`#formModalPaciente-${paciente.id}`).hide()
+        </form>`);
+        $(`#formModalPaciente-${paciente.id}`).hide();
+
+        //Inserto botones para el form editar y los oculto
+        $(`#modal-footer-${paciente.id}`).append(
+            `<div id="btns-editar-${paciente.id}">
+                <button type="button" class="btn btn-primary btnGuardar" data-id="${paciente.id}" data-dismiss="modal">Guardar Cambios</button>
+                <button type="button" class="btn btn-danger btnCancelar" data-id="${paciente.id}" data-dismiss="modal">Cancelar</button>
+            </div>`);
+        $(`#btns-editar-${paciente.id}`).hide();
     })
 
+
+    //Borrar datos
     const btnsBorrar = document.querySelectorAll('.btnBorrar'); //Si lo selecciono con jQuery el forEach no lo interpreta como un array
-    //Este evento recorre todos los botones de borrar de cada paciente
+    //Este evento recorre todos los botones de borrar de cada paciente y dispara la funcion borrar de la DB
     btnsBorrar.forEach(btn => {
         btn.addEventListener('click',(e)=>{
-            borrarPaciente(e.target.dataset.id)
+            borrarPacienteDB(e.target.dataset.id)
         })
     })
 
-      //-------------sacar de acaa-------
-        const btnsEditar = document.querySelectorAll(".btnEditar")
-    
+    //Cambiar el modal a modo Edicion
+    const btnsEditar = document.querySelectorAll(".btnEditar")
     btnsEditar.forEach(btn => {
         btn.addEventListener('click', e =>{
             let id= e.target.dataset.id
+            //Primero cambio la interfase del DOM
             $(`#modalBodyDatos${id}`).fadeOut();
-            $(`#formModalPaciente-${id}`).delay(1500)
-            $(`#formModalPaciente-${id}`).fadeIn(1000)
+            $(`#bnts-datos-${id}`).fadeOut();
+            $(`#formModalPaciente-${id}`).delay(1000);
+            $(`#formModalPaciente-${id}`).fadeIn(1000);
+            $(`#btns-editar-${id}`).delay(1000);
+            $(`#btns-editar-${id}`).fadeIn();
+            $(`#modalPacienteLabel${id}`).html('Editar datos del Paciente');
         })
-        //------------------------------
+    })
+
+    //Guardar datos Editados
+    const btnsGuardar = document.querySelectorAll(".btnGuardar");
+    btnsGuardar.forEach(btn => {
+        btn.addEventListener('click',e =>{
+            let id= e.target.dataset.id;
+            editarPacienteDB(id,{
+                nombre:$(`#inputNombre-${id}`).val(),
+                dni: $(`#inputDni-${id}`).val(),
+                edad: $(`#inputEdad-${id}`).val(),
+                sexo: $(`#inputSexo-${id}`).val(),
+                eMail: $(`#inputEmail-${id}`).val(),})
+                })
+    })
+
+    //Cerrar el modal y volver a la interfase de datos en vez del Form para editar
+    const btnsCancelar = document.querySelectorAll(".btnCancelar");
+    btnsCancelar.forEach(btn => {
+        btn.addEventListener('click', e =>{
+            let id= e.target.dataset.id;
+            $(`#formModalPaciente-${id}`).hide();
+            $(`#btns-editar-${id}`).hide();
+            $(`#modalBodyDatos${id}`).show();
+            $(`#bnts-datos-${id}`).show();
+            $(`#modalPacienteLabel${id}`).html(`${nombrePaciente}`);//<== CORREGIR hacer una funcion getpaciente que me baje el nombre
+        })
     })
     aplicarDataTable()
 })
 
-/*
-const modalBodyEditarPaciente=`
-<form id="formModalPaciente" class="row justify-content-center align-content-center">
-    <h2 class="col-12 mb-5 text-center">Editar datos del Paciente</h2>
-    <input id="inputNombre" type="text" class="inputPaciente d-block mx-auto" aria-describedby="nombrePaciente" placeholder="${nombrePaciente}">
-    <input id="inputDni" type="number" class="inputPaciente d-block mx-auto" aria-describedby="dniPaciente" placeholder="${paciente.dni}">
-    <input id="inputEdad" type="number" class="inputPaciente d-block mx-auto" aria-describedby="edadPaciente" placeholder="${paciente.edad}">
-    <select id="inputSexo" class="d-block mx-auto" name="sexo">
-        <option value="" disabled selected hidden class="etiquetaSelect mx-auto">${paciente.sexo}</option>
-        <option value="Femenino" >Femenino</option>
-        <option value="Masculino">Masculino</option>
-        <option value="Otro">Otro</option>
-    </select>
-    <input id="inputEmail" type="email" class="inputPaciente d-block mx-auto" placeholder="${paciente.eMail}>
-    <div class="row justify-content-center align-content-center mt-5">
-    <button type="button" class="btn btn-primary btnEditar" data-id="${paciente.id}">Guardar Cambios</button>
-    </div>
-</form>`
-*/
 
+//=============================================================================
 
-//funcion para borrar de la base de datos los pacientes
-function borrarPaciente(id){
-    db.collection('pacientes').doc(id).delete();
-}
-
-function aplicarDataTable() {
-    $('#tablaPacientes').DataTable({
-    //Cambio el lenguaje a español
-        "language": {
-                "lengthMenu": "Mostrar _MENU_ registros",
-                "zeroRecords": "No se encontraron resultados",
-                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sSearch": "Buscar:",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast":"Último",
-                    "sNext":"Siguiente",
-                    "sPrevious": "Anterior"
-                    },
-                    "sProcessing":"Procesando...",
-            }
-    });
-}
