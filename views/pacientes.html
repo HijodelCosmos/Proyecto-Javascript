@@ -77,22 +77,58 @@
 
     <section class="inner-page">
         <div class="container justify-content-center mt-3 mb-3">
-          <row class="col-12">
-          <table id="tablaPacientes" class="table table-sm-responsive">
-            <thead class="thead-light">
-              <tr class=" rowPaciente">
-                <th>Nombre</th>
-                <th>DNI</th>
-                <th>Edad</th>
-                <th>Sexo</th>
-                <th>Email</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="datosDePacientes">
-            </tbody>
-          </table>
-        </row>
+          <div class="col-6 m-3">
+                <button type="button" class="botonPrimario" data-toggle="modal" data-target="#modalNuevoPaciente">
+                  Agregar Paciente
+                </button>
+
+                <!-- Modal -->
+                <div class="modal" id="modalNuevoPaciente" tabindex="-1" role="dialog" aria-labelledby="ModalPacienteNuevo" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h3 class="modal-title" id="modalNuevoPacienteLabel">Ingrese los datos</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="formModalPaciente-${paciente.id}" class="justify-content-center align-content-center">
+                          <input id="inputNombre" type="text" class="inputPaciente d-block mx-auto" aria-describedby="nombrePaciente" placeholder="Nombre y Apellido">
+                          <input id="inputDni" type="number" class="inputPaciente d-block mx-auto" aria-describedby="dniPaciente" placeholder="D.N.I.">
+                          <input id="inputEdad" type="number" class="inputPaciente d-block mx-auto" aria-describedby="edadPaciente" placeholder="Edad">
+                          <select id="inputSexo" class="d-block mx-auto" name="sexo">
+                              <option value="" disabled selected hidden class="etiquetaSelect mx-auto">Sexo</option>
+                              <option value="Femenino" >Femenino</option>
+                              <option value="Masculino">Masculino</option>
+                              <option value="Otro">Otro</option>
+                          </select>
+                          <input id="inputEmail" type="email" class="inputPaciente d-block mx-auto" placeholder="Email del paciente">
+                          </form>`
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" id="btnGuardarNuevoPaciente" class="btn btn-primary botonPrimario" data-dismiss="modal">Guardar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+          <div class="col-12">
+            <table id="tablaPacientes" class="table table-sm-responsive">
+              <thead class="thead-light">
+                <tr class=" rowPaciente">
+                  <th>Nombre</th>
+                  <th>DNI</th>
+                  <th>Edad</th>
+                  <th>Sexo</th>
+                  <th>Email</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="datosDePacientes">
+              </tbody>
+            </table>
+        </div>
         </div>
     </section>
 
@@ -177,17 +213,7 @@
      <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
 <script>
   // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyD7J8yBmQvy4m9Ka1kmd-RVcR-XOvldIRc",
-    authDomain: "proyecto-javascript---homelab.firebaseapp.com",
-    databaseURL: "https://proyecto-javascript---homelab.firebaseio.com",
-    projectId: "proyecto-javascript---homelab",
-    storageBucket: "proyecto-javascript---homelab.appspot.com",
-    messagingSenderId: "429371215548",
-    appId: "1:429371215548:web:08d347e5ecdb7b9991cab9"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+
 </script>
 <!--  Main JS File -->
     <script src="../assets/js/hars.js"></script>

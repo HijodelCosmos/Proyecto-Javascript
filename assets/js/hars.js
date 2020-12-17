@@ -1,3 +1,8 @@
+window.addEventListener('DOMContentLoaded', async(e) => {
+
+
+
+
 
 //Variables de mi DB
 const db = firebase.firestore();
@@ -13,8 +18,7 @@ function PlanillaDePaciente(nombre,dni,edad,sexo,eMail,resultadosEscalaHars){
     this.resultadosEscalaHars=resultadosEscalaHars; /*Propiedad privada y corresponde al resultado total del test*/
 }
 
-function EscalaHars(fechaDeTesteo,puntajeDeAnsiedadPsiquica,puntajeDeAnsiedadSomatica,ansiedadTotal,gravedadDeSintomas){
-    this.fecha=fechaDeTesteo;
+function EscalaHars(puntajeDeAnsiedadPsiquica,puntajeDeAnsiedadSomatica,ansiedadTotal,gravedadDeSintomas){
     this.aPsiquica=puntajeDeAnsiedadPsiquica;
     this.aSomatica=puntajeDeAnsiedadSomatica;
     this.ansiedadTotal=ansiedadTotal;
@@ -33,8 +37,6 @@ var paciente = new PlanillaDePaciente();
 var resultadosEscalaHars= new EscalaHars();
 
 
-
-
 //***Variables DOM***
 //Secciones
 const nodoMain = $("#main");
@@ -48,23 +50,22 @@ const tablaPacientes = $('#datosDePacientes');
 const btnComenzarTest =$("#comenzarTest");
 const btnCargarPaciente = $("#cargarPaciente");
 const btnResultados = $("#mostrarResultados");
-//Resultados
+const btnGuardarNuevoPaciente = $("#btnGuardarNuevoPaciente");
+
+//Botones relacionados a Objetos de mi DB
+//Si los selecciono con jQuery el forEach no lo interpreta como un array
+const btnsBorrar = document.querySelectorAll('.btnBorrar');
+const btnsEditar = document.querySelectorAll(".btnEditar")
+const btnsGuardar = document.querySelectorAll(".btnGuardar");
+const btnsCancelar = document.querySelectorAll(".btnCancelar");
+
+//Resultados a mostrar en el DOM
 const nivelesDeAnsiedadHtml=$("#nivelesAnsiedad");
 const resultadoPrincipalHtml= $("#resultadoPrincipal");
 const resultadoAPsiquicaHtml=$("#resultadoPsi");
 const resultadoASomaticaHtml=$("#resultadoSom");
 
-/*<<<<<<<<<<<<<<<<<<< API>>>>>>>>>>>>>>>>>>>>>
-   $.ajax({
-       method:'GET',
-       url:"https://api.unsplash.com/photos/random/?client_id=pwD9cff2DmbKNg_DPRlurONhO_2rhFH1JDXG_WUN5o4",
-       client_id:"pwD9cff2DmbKNg_DPRlurONhO_2rhFH1JDXG_WUN5o4",
-       success:function(photo){
-           console.log(photo)
-           $("#imagenPrueba").attr("src",photo.urls.small)
-       }
-   })
-*/
+
 /*~~~EVENTOS SPA~~~*/
     descripcion.show();
     formPaciente.hide();
@@ -96,6 +97,15 @@ const resultadoASomaticaHtml=$("#resultadoSom");
             subirPaciente(paciente)
         }
     })
+    $(btnGuardarNuevoPaciente).click(()=>{
+        logPaciente();
+        //Le asigno Valor por que firestore no admite objetos con propiedades null
+        resultadosEscalaHars.aPsiquica="Test no realizado";
+        resultadosEscalaHars.aSomatica="Test no realizado";
+        resultadosEscalaHars.ansiedadTotal="Test no realizado";
+        resultadosEscalaHars.sintomas="Test no realizado";
+        subirPaciente(paciente);
+    })
 /*~~~~~~~~~~~~*/
 
 /*==================FUNCIONES DEL TEST HARS=================*/
@@ -107,7 +117,6 @@ const resultadoASomaticaHtml=$("#resultadoSom");
         paciente.edad = $("#inputEdad").val();
         paciente.sexo = $("#inputSexo").val();
         paciente.eMail = $("#inputEmail").val();
-        paciente.resultadosEscalaHars = null;
 
         sessionStorage.setItem('nombrePaciente',paciente.nombre);
         console.log("Nombre de Paciente: "+paciente.nombre)
@@ -259,10 +268,11 @@ function aplicarDataTable() {
 
 //==============================BASE DE DATOS============================
 
-//Estas si o sí tienen que estar en funcion de flecha (no termino de entender por que)
+//Si o sí tienen que estar en funcion de flecha dentro de una variable (no termino de entender por que pero así funciona)
 const getPacientes= () => db.collection("pacientes").get();
 const onGetPacientes= (callback)=> db.collection("pacientes").onSnapshot(callback);
 const getUnPaciente = (id) => db.collection("pacientes").doc(id).get()
+
 
 function editarPacienteDB(id,pacienteActualizado){
     db.collection('pacientes').doc(id).update(pacienteActualizado)
@@ -274,6 +284,7 @@ function borrarPacienteDB(id){
 
 //Subo los obj pacientes a mi CloudFireStore 
 function subirPaciente(objPaciente){
+
     db.collection('pacientes').doc().set({
         nombre: objPaciente.nombre,
         dni: objPaciente.dni,
@@ -290,7 +301,7 @@ function subirPaciente(objPaciente){
 }
 
 //Obtener datos de la nube e insertarlos en la tabla
-window.addEventListener('DOMContentLoaded', async(e) => {
+
 
     await onGetPacientes((querySnapshot)=>{
         tablaPacientes.html('')
@@ -381,17 +392,15 @@ window.addEventListener('DOMContentLoaded', async(e) => {
 
         })
 
-
         //Borrar datos
-        const btnsBorrar = document.querySelectorAll('.btnBorrar'); //Si lo selecciono con jQuery el forEach no lo interpreta como un array
         //Este evento recorre todos los botones de borrar de cada paciente y dispara la funcion borrar de la DB
         btnsBorrar.forEach(btn => {
             btn.addEventListener('click',async (e) =>{
                 await borrarPacienteDB(e.target.dataset.id);
             })
         })
+
         //Cambiar el modal a modo Edicion
-        const btnsEditar = document.querySelectorAll(".btnEditar")
         btnsEditar.forEach(btn => {
             btn.addEventListener('click', e =>{
                 let id= e.target.dataset.id
@@ -407,7 +416,6 @@ window.addEventListener('DOMContentLoaded', async(e) => {
         })
 
         //Guardar datos Editados
-        const btnsGuardar = document.querySelectorAll(".btnGuardar");
         btnsGuardar.forEach(btn => {
             btn.addEventListener('click',async(e) =>{
                 let id= e.target.dataset.id;
@@ -421,7 +429,6 @@ window.addEventListener('DOMContentLoaded', async(e) => {
         })
 
         //Cerrar el modal y volver a la interfase de datos en vez del Form para editar
-        const btnsCancelar = document.querySelectorAll(".btnCancelar");
         btnsCancelar.forEach(btn => {
             btn.addEventListener('click', async(e) =>{
                 let id= e.target.dataset.id;
@@ -440,6 +447,17 @@ window.addEventListener('DOMContentLoaded', async(e) => {
     })
 })
 
-
+//===================================API FIREBASE======================
+var firebaseConfig = {
+    apiKey: "AIzaSyD7J8yBmQvy4m9Ka1kmd-RVcR-XOvldIRc",
+    authDomain: "proyecto-javascript---homelab.firebaseapp.com",
+    databaseURL: "https://proyecto-javascript---homelab.firebaseio.com",
+    projectId: "proyecto-javascript---homelab",
+    storageBucket: "proyecto-javascript---homelab.appspot.com",
+    messagingSenderId: "429371215548",
+    appId: "1:429371215548:web:08d347e5ecdb7b9991cab9"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 //=============================================================================
 
