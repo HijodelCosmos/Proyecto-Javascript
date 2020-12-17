@@ -445,6 +445,7 @@ function subirPaciente(objPaciente){
         })
 
     })
+    aplicarDataTable()
 })
 
 //===================================API FIREBASE======================
