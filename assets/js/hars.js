@@ -9,13 +9,13 @@ const db = firebase.firestore();
 
 
 /*Creadores de objeto*/
-function PlanillaDePaciente(nombre,dni,edad,sexo,eMail,resultadosEscalaHars){
+function PlanillaDePaciente(nombre,dni,edad,sexo,eMail,resultadoEscalaHars){
     this.nombre=nombre;
     this.dni=dni;
     this.edad=edad;
     this.sexo=sexo;
     this.eMail=eMail;
-    this.resultadosEscalaHars=resultadosEscalaHars; /*Propiedad privada y corresponde al resultado total del test*/
+    this.resultadosEscalaHars=resultadoEscalaHars; /*Propiedad privada y corresponde al resultado total del test*/
 }
 
 function EscalaHars(puntajeDeAnsiedadPsiquica,puntajeDeAnsiedadSomatica,ansiedadTotal,gravedadDeSintomas){
@@ -52,12 +52,6 @@ const btnCargarPaciente = $("#cargarPaciente");
 const btnResultados = $("#mostrarResultados");
 const btnGuardarNuevoPaciente = $("#btnGuardarNuevoPaciente");
 
-//Botones relacionados a Objetos de mi DB
-//Si los selecciono con jQuery el forEach no lo interpreta como un array
-const btnsBorrar = document.querySelectorAll('.btnBorrar');
-const btnsEditar = document.querySelectorAll(".btnEditar")
-const btnsGuardar = document.querySelectorAll(".btnGuardar");
-const btnsCancelar = document.querySelectorAll(".btnCancelar");
 
 //Resultados a mostrar en el DOM
 const nivelesDeAnsiedadHtml=$("#nivelesAnsiedad");
@@ -145,12 +139,12 @@ const resultadoASomaticaHtml=$("#resultadoSom");
         console.log("ansiedadSo "+ itemsAnsiedadSomatica)
     
         //Sumo de los items de cada categoría
-        for(i=0; i < itemsAnsiedadPsiquica.length; i++){
+        for(var i=0; i < itemsAnsiedadPsiquica.length; i++){
             ansiedadPsiquica = parseInt(ansiedadPsiquica) + parseInt(itemsAnsiedadPsiquica[i])
-        };
+        }
         for(i=0; i < itemsAnsiedadSomatica.length; i++){
             ansiedadSomatica = parseInt(ansiedadSomatica) + parseInt(itemsAnsiedadSomatica[i])
-        };
+        }
         
         //Asigno las propiedades al objeto
         resultadosEscalaHars.aPsiquica=ansiedadPsiquica;
@@ -391,7 +385,13 @@ function subirPaciente(objPaciente){
             $(`#btns-editar-${paciente.id}`).hide();
 
         })
-
+            
+        //Botones relacionados a Objetos de mi DB
+        //Si los selecciono con jQuery el forEach no lo interpreta como un array
+        const btnsBorrar = document.querySelectorAll('.btnBorrar');
+        const btnsEditar = document.querySelectorAll(".btnEditar")
+        const btnsGuardar = document.querySelectorAll(".btnGuardar");
+        const btnsCancelar = document.querySelectorAll(".btnCancelar");
         //Borrar datos
         //Este evento recorre todos los botones de borrar de cada paciente y dispara la funcion borrar de la DB
         btnsBorrar.forEach(btn => {
